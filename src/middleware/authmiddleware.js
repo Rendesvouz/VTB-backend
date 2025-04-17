@@ -1,8 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-/**
- * Middleware to authenticate users via JWT
- */
 const authenticate = () => async (req, res, next) => {
   const accessToken = req.headers.authorization?.split(" ")[1];
 
@@ -27,9 +24,10 @@ const authenticate = () => async (req, res, next) => {
       });
     }
 
+    // Correctly access the data
     req.accessToken = accessToken;
-    req.userId = payload.sub?.id || payload.id;
-    req.role = payload.sub?.role;
+    req.userId = payload.sub;
+    req.role = payload.role;
     next();
   });
 };

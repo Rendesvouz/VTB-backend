@@ -305,6 +305,7 @@ async function login(req, res, next) {
       refresh_token: refreshToken,
       role: Role,
       verification: verify,
+      id: user.id,
     });
   } catch (error) {
     console.error("Login Error: ", error);

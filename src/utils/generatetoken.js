@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+// const config = require("./config");
+// const { oneHourExpiry, twoMonthsExpiry } = require("./date-time");
 const crypto = require("crypto");
 
 function generateAccessToken(userId, role) {
