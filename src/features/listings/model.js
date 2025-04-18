@@ -21,7 +21,7 @@ const Listings = sequelize.define(
       allowNull: false,
     },
     price: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.JSONB,
       allowNull: false,
     },
     availability: {

@@ -3,7 +3,7 @@ const Joi = require("joi");
 const listingSchema = Joi.object({
   car_name: Joi.string().optional(),
   description: Joi.string().required(),
-  price: Joi.number().required(),
+  price: Joi.array().optional(),
   pictures: Joi.array().items(Joi.string()).optional(),
   location: Joi.string().optional(),
   model: Joi.string().optional(),
@@ -14,7 +14,7 @@ const listingSchema = Joi.object({
 const updatelistingSchema = Joi.object({
   car_name: Joi.string().optional(),
   description: Joi.string().required(),
-  price: Joi.number().required(),
+  price: Joi.array().optional(),
   pictures: Joi.array().items(Joi.string()).optional(),
   location: Joi.string().optional(),
   model: Joi.string().optional(),

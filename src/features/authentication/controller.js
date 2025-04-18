@@ -389,41 +389,82 @@ async function logout(req, res, next) {
   }
 }
 
-//Forgot Password function
+// //Forgot Password function
+// async function forgotPassword(req, res, next) {
+//   try {
+//     const validatedData = await forgotPasswordSchema.validateAsync(req.body);
+//     const user = await findUserByEmail(validatedData.email);
+
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ message: "No user found with this email address." });
+//     }
+
+//     const resetToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+//       expiresIn: "1h",
+//     });
+
+//     await Token.create({
+//       userId: user.id,
+//       token: resetToken,
+//       token_type: "reset_password",
+//       expiresIn: Date.now() + 3600000, // 1 hour expiration
+//     });
+
+//     // Set reset link with the frontend URL
+//     // const resetLink = `https://rendezvouscare.com/reset-password?token=${resetToken}`;
+
+//     await sendPasswordResetEmail(req, user.email, resetToken);
+//     return res
+//       .status(200)
+//       .json({ message: "Password reset link sent to your email." });
+//   } catch (error) {
+//     console.error("Forgot Password Error:", error);
+//     return res
+//       .status(500)
+//       .json({ message: "Internal Server Error", error: error.message });
+//   }
+// }
+
+// Forgot Password - Send Reset Code (expires in 5 minutes)
 async function forgotPassword(req, res, next) {
   try {
+    // Validate input
     const validatedData = await forgotPasswordSchema.validateAsync(req.body);
-    const user = await findUserByEmail(validatedData.email);
 
+    // Check if user exists
+    const user = await findUserByEmail(validatedData.email);
     if (!user) {
       return res
         .status(404)
         .json({ message: "No user found with this email address." });
     }
 
-    const resetToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    // Generate a 6-digit numeric reset code
+    const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
 
+    // Store reset token in DB with 5 minutes expiry
     await Token.create({
       userId: user.id,
-      token: resetToken,
+      token: resetCode,
       token_type: "reset_password",
-      expiresIn: Date.now() + 3600000, // 1 hour expiration
+      expiresIn: Date.now() + 5 * 60 * 1000,
     });
 
-    // Set reset link with the frontend URL
-    const resetLink = `https://rendezvouscare.com/reset-password?token=${resetToken}`;
+    // Send reset code email
+    await sendResetCodeEmail(req, user.email, resetCode);
 
-    await sendPasswordResetEmail(req, user.email, resetLink);
-    return res
-      .status(200)
-      .json({ message: "Password reset link sent to your email." });
+    return res.status(200).json({
+      message:
+        "A reset code has been sent to your email. It is valid for 5 minutes.",
+    });
   } catch (error) {
     console.error("Forgot Password Error:", error);
-    return res
-      .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 }
 
