@@ -5,12 +5,14 @@ const { authenticate } = require("../middleware/authmiddleware");
 const authRoutes = require("../features/authentication/routes");
 const profiles = require("../features/profile/route");
 const listings = require("../features/listings/route");
+const bookings = require("../features/bookings/route");
 
 const router = express.Router();
 
 router.use("/auth", authRoutes);
 router.use("/profile", authenticate(), profiles);
 router.use("/listing", authenticate(), listings);
+router.use("/books", authenticate(), bookings);
 
 // Catch-All for Undefined Routes
 router.use("*", (req, res) => {

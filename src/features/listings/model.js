@@ -46,6 +46,10 @@ const Listings = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    capacity: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   { timestamps: true, freezeTableName: true }
 );

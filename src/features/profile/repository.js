@@ -1,4 +1,5 @@
 const { UserProfile } = require("./model");
+const { User } = require("../authentication/model");
 const { Op, Sequelize } = require("sequelize");
 
 // Create a new user
@@ -30,15 +31,37 @@ async function updateUserprofile(userId, updates) {
   }
 }
 
+// /**
+//  * Finds a user profile by userId field.
+//  * @param {string} userId - The user's ID.
+//  * @returns {Promise<UserProfile|null>} - The user profile if found, otherwise null.
+//  */
+// async function findUserprofileById(userId) {
+//   try {
+//     const user = await UserProfile.findOne({ where: { userId } });
+//     return user || null;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
 /**
- * Finds a user profile by userId field.
+ * Finds a user profile by userId field, including the associated User model.
  * @param {string} userId - The user's ID.
- * @returns {Promise<UserProfile|null>} - The user profile if found, otherwise null.
+ * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
  */
 async function findUserprofileById(userId) {
   try {
-    const user = await UserProfile.findOne({ where: { userId } });
-    return user || null;
+    const userProfile = await UserProfile.findOne({
+      where: { userId },
+      include: [
+        {
+          model: User,
+          as: "User",
+        },
+      ],
+    });
+    return userProfile || null;
   } catch (error) {
     throw error;
   }

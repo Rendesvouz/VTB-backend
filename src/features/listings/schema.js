@@ -7,6 +7,7 @@ const listingSchema = Joi.object({
   pictures: Joi.array().items(Joi.string()).optional(),
   location: Joi.string().optional(),
   model: Joi.string().optional(),
+  capacity: Joi.string().optional(),
   type: Joi.string().optional(),
   availability: Joi.string().valid("available", "unavailable").optional(),
 });
@@ -19,6 +20,7 @@ const updatelistingSchema = Joi.object({
   location: Joi.string().optional(),
   model: Joi.string().optional(),
   type: Joi.string().optional(),
+  capacity: Joi.string().optional(),
   availability: Joi.string().valid("available", "unavailable").optional(),
 });
 
