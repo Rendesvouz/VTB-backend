@@ -1,12 +1,19 @@
 const Joi = require("joi");
 
-// Appointment Joi Schema
+// Define the schema for location objects
+const locationSchema = Joi.object({
+  address: Joi.string().max(255).optional(),
+  city: Joi.string().max(100).optional(),
+  country: Joi.string().max(100).optional(),
+});
+
+// Define the main appointment schema
 const appointmentSchema = Joi.object({
   listingId: Joi.string().uuid().optional(),
   appointmentTime: Joi.object({
     date: Joi.string().optional(),
     time: Joi.string().optional(),
-  }),
+  }).optional(),
   description: Joi.string().max(255).optional(),
   status: Joi.string()
     .valid(
@@ -21,9 +28,8 @@ const appointmentSchema = Joi.object({
     .optional(),
   price: Joi.number().precision(2).optional(),
   cancellationReason: Joi.string().max(255).optional(),
-  address: Joi.string().max(255).optional(),
-  city: Joi.string().max(100).optional(),
-  country: Joi.string().max(100).optional(),
+  pickupLocation: locationSchema.optional(),
+  deliveryLocation: locationSchema.optional(),
   reminders: Joi.array().items(Joi.number().integer()).optional(),
 });
 

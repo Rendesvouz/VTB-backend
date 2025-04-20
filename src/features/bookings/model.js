@@ -48,17 +48,17 @@ const Appointment = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    address: {
-      type: DataTypes.STRING,
+    pickupLocation: {
+      type: DataTypes.JSONB,
       allowNull: true,
+      description:
+        "Object containing pickup location with keys: address, city, and country",
     },
-    city: {
-      type: DataTypes.STRING,
+    deliveryLocation: {
+      type: DataTypes.JSONB,
       allowNull: true,
-    },
-    country: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      description:
+        "Object containing delivery location with keys: address, city, and country",
     },
     reminders: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
