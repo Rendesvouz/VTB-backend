@@ -22,7 +22,17 @@ const sequelize = new Sequelize(databaseUrl, {
 
 sequelize
   .authenticate()
-  .then(() => console.log("Database connected successfully!"))
-  .catch((err) => console.error("Error connecting to the database:", err));
+  .then(() => {
+    console.log("Database connected successfully!");
+
+    // 🔄 Auto-sync all defined models
+    return sequelize.sync({ alter: true });
+  })
+  .then(() => {
+    console.log("All models were synchronized successfully.");
+  })
+  .catch((err) => {
+    console.error("Error connecting to the database:", err);
+  });
 
 module.exports = sequelize;

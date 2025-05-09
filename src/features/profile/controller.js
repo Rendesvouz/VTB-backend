@@ -52,7 +52,7 @@ async function updateUserprofileController(req, res, next) {
 const getUsersprofileById = async (req, res) => {
   const { userId } = req.params;
   try {
-    const user = await repository.findUserById(userId);
+    const user = await repository.findUserprofileById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
