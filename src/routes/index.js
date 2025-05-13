@@ -6,12 +6,14 @@ const authRoutes = require("../features/authentication/routes");
 const profiles = require("../features/profile/route");
 const listings = require("../features/listings/route");
 const bookings = require("../features/bookings/route");
+const list = require("../features/listings/routes");
 
 const router = express.Router();
 
 router.use("/auth", authRoutes);
 router.use("/profile", authenticate(), profiles);
 router.use("/listing", authenticate(), listings);
+router.use("/listings", list);
 router.use("/books", authenticate(), bookings);
 
 // Catch-All for Undefined Routes

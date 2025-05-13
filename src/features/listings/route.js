@@ -2,8 +2,8 @@ const express = require("express");
 const {
   createCarOffering,
   updateCarOffering,
-  getAllOffering,
-  getOfferingbyid,
+  // getAllOffering,
+  // getOfferingbyid,
   deleteListingById,
 } = require("./controller");
 
@@ -31,8 +31,8 @@ router.put(
   upload.fields([{ name: "pictures", maxCount: 5 }]),
   updateCarOffering
 );
-router.get("/offerings/:id", getOfferingbyid);
-router.get("/all-offerings", getAllOffering);
+// router.get("/offerings/:id", getOfferingbyid);
+// router.get("/all-offerings", getAllOffering);
 router.delete("/offering/:id", deleteListingById);
 
 module.exports = router;

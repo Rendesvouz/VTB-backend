@@ -1,4 +1,4 @@
-const { UserProfile } = require("./model");
+const { UserProfile, TruckOwner, DriverProfile } = require("./model");
 const { User } = require("../authentication/model");
 const { Op, Sequelize } = require("sequelize");
 
@@ -18,6 +18,20 @@ async function createUserprofile(data) {
   }
 }
 
+/**
+ * Creates a new car offering.
+ */
+async function createtruckowner(offeringData) {
+  return await TruckOwner.create(offeringData);
+}
+
+/**
+ * Creates a new car offering.
+ */
+async function createdriverprofile(offeringData) {
+  return await DriverProfile.create(offeringData);
+}
+
 async function updateUserprofile(userId, updates) {
   try {
     const result = await UserProfile.update(updates, {
@@ -31,19 +45,31 @@ async function updateUserprofile(userId, updates) {
   }
 }
 
-// /**
-//  * Finds a user profile by userId field.
-//  * @param {string} userId - The user's ID.
-//  * @returns {Promise<UserProfile|null>} - The user profile if found, otherwise null.
-//  */
-// async function findUserprofileById(userId) {
-//   try {
-//     const user = await UserProfile.findOne({ where: { userId } });
-//     return user || null;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
+async function updatetruckownerprofile(truckownerId, updates) {
+  try {
+    const result = await TruckOwner.update(updates, {
+      where: { truckownerId: truckownerId },
+      returning: true,
+    });
+    return result[1][0];
+  } catch (error) {
+    console.log("Error updating truck owner:", error);
+    throw error;
+  }
+}
+
+async function updatedriverprofile(driverId, updates) {
+  try {
+    const result = await DriverProfile.update(updates, {
+      where: { driverId: driverId },
+      returning: true,
+    });
+    return result[1][0];
+  } catch (error) {
+    console.log("Error updating driver profile:", error);
+    throw error;
+  }
+}
 
 /**
  * Finds a user profile by userId field, including the associated User model.
@@ -67,8 +93,58 @@ async function findUserprofileById(userId) {
   }
 }
 
+/**
+ * Finds a user profile by userId field, including the associated User model.
+ * @param {string} userId - The user's ID.
+ * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
+ */
+async function findtruckownerprofileById(truckownerId) {
+  try {
+    const truckProfile = await TruckOwner.findOne({
+      where: { truckownerId },
+      include: [
+        {
+          model: User,
+          as: "User",
+        },
+      ],
+    });
+    return truckProfile || null;
+  } catch (error) {
+    throw error;
+  }
+}
+
+/**
+ * Finds a user profile by userId field, including the associated User model.
+ * @param {string} userId - The user's ID.
+ * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
+ */
+async function finddriverrprofileById(driverId) {
+  try {
+    const driverProfile = await DriverProfile.findOne({
+      where: { driverId },
+      include: [
+        {
+          model: User,
+          as: "User",
+        },
+      ],
+    });
+    return driverProfile || null;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   updateUserprofile,
+  finddriverrprofileById,
   createUserprofile,
   findUserprofileById,
+  createtruckowner,
+  findtruckownerprofileById,
+  updatetruckownerprofile,
+  createdriverprofile,
+  updatedriverprofile,
 };

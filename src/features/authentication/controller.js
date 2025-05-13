@@ -102,6 +102,19 @@ async function DriverSignup(req, res, next) {
   }
 }
 
+// Driver Signup
+async function TruckOwnerSignup(req, res, next) {
+  try {
+    req.body.role = "TruckOwner";
+    return signup(req, res, next);
+  } catch (err) {
+    console.error("Error in TruckOwner signup:", err);
+    return res
+      .status(400)
+      .json({ message: "Error in TruckOwner signup", error: err.message });
+  }
+}
+
 // Admin Signup
 async function AdminSignup(req, res, next) {
   try {
@@ -547,4 +560,5 @@ module.exports = {
   createSuperAdmin,
   getUsersById,
   DriverSignup,
+  TruckOwnerSignup,
 };

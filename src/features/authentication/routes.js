@@ -12,6 +12,7 @@ const {
   forgotPassword,
   resetPassword,
   getUsersById,
+  TruckOwnerSignup,
 } = require("./controller");
 const router = express.Router();
 
@@ -19,6 +20,7 @@ const router = express.Router();
 router.post("/signup", signup);
 //router.post("/admin-signup", validateJwt(["SuperAdmin"]), AdminSignup);
 router.post("/driver-signup", DriverSignup);
+router.post("/truckowner-signup", TruckOwnerSignup);
 
 router.post("/login", login);
 router.post("/logout", logout);

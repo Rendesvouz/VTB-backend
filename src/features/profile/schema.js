@@ -8,6 +8,15 @@ const createprofileSchema = Joi.object({
   address: Joi.string().optional(),
 });
 
+const updatetruckOwnerSchema = Joi.object({
+  companyName: Joi.string().optional(),
+  address: Joi.string().optional(),
+  licenseNumber: Joi.string().optional(),
+  fleetSize: Joi.number().integer().min(0).optional(),
+  operatingRegions: Joi.array().items(Joi.string()).optional(),
+});
+
 module.exports = {
   createprofileSchema,
+  updatetruckOwnerSchema,
 };
