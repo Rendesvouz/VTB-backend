@@ -14,8 +14,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "*", // Adjust to your frontend's domain if needed
-    methods: ["GET", "POST"],
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   },
 });
 
@@ -24,6 +24,22 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
+
+// Middleware Configurations
+const allowedOrigins = ["*"];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed from origin"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 // Middlewares
 app.use(cors());
