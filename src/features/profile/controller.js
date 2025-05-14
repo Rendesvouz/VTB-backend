@@ -1,5 +1,9 @@
 const repository = require("./repository");
-const { createprofileSchema, updatetruckOwnerSchema } = require("./schema");
+const {
+  createprofileSchema,
+  updatetruckOwnerSchema,
+  updatedriverSchema,
+} = require("./schema");
 
 /**
  * Creates a new car offering.
@@ -263,6 +267,34 @@ const getdriverprofileById = async (req, res) => {
   }
 };
 
+async function updatedriverprofileController(req, res, next) {
+  try {
+    const driverId = req.userId;
+
+    // Validate the update data
+    const validatedData = await updatedriverSchema.validateAsync(req.body);
+
+    const updatedUser = await repository.updatedriverprofile(
+      driverId,
+      validatedData
+    );
+
+    // if (!updatedUser) {
+    //   return res.status(404).json({ message: "User profile not found." });
+    // }
+
+    return res.status(200).json({
+      message: "driver profile updated successfully.",
+      data: updatedUser,
+    });
+  } catch (err) {
+    console.error("driver profile error Error: ", err);
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", error: err.message });
+  }
+}
+
 module.exports = {
   getUserprofileById,
   getDriverprofileById,
@@ -275,4 +307,5 @@ module.exports = {
   gettruckownerprofileById,
   updatetruckprofileController,
   createdriverProfile,
+  updatedriverprofileController,
 };

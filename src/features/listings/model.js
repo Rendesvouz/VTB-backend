@@ -17,7 +17,7 @@ const Listings = sequelize.define(
       allowNull: true,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     price: {

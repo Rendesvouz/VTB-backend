@@ -13,11 +13,14 @@ const {
   resetPassword,
   getUsersById,
   TruckOwnerSignup,
+  approveUser,
 } = require("./controller");
 const router = express.Router();
 
 // Signup routes
 router.post("/signup", signup);
+router.patch("/approve/:id", approveUser);
+
 //router.post("/admin-signup", validateJwt(["SuperAdmin"]), AdminSignup);
 router.post("/driver-signup", DriverSignup);
 router.post("/truckowner-signup", TruckOwnerSignup);

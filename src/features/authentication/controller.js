@@ -402,44 +402,6 @@ async function logout(req, res, next) {
   }
 }
 
-// //Forgot Password function
-// async function forgotPassword(req, res, next) {
-//   try {
-//     const validatedData = await forgotPasswordSchema.validateAsync(req.body);
-//     const user = await findUserByEmail(validatedData.email);
-
-//     if (!user) {
-//       return res
-//         .status(404)
-//         .json({ message: "No user found with this email address." });
-//     }
-
-//     const resetToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-//       expiresIn: "1h",
-//     });
-
-//     await Token.create({
-//       userId: user.id,
-//       token: resetToken,
-//       token_type: "reset_password",
-//       expiresIn: Date.now() + 3600000, // 1 hour expiration
-//     });
-
-//     // Set reset link with the frontend URL
-//     // const resetLink = `https://rendezvouscare.com/reset-password?token=${resetToken}`;
-
-//     await sendPasswordResetEmail(req, user.email, resetToken);
-//     return res
-//       .status(200)
-//       .json({ message: "Password reset link sent to your email." });
-//   } catch (error) {
-//     console.error("Forgot Password Error:", error);
-//     return res
-//       .status(500)
-//       .json({ message: "Internal Server Error", error: error.message });
-//   }
-// }
-
 // Forgot Password - Send Reset Code (expires in 5 minutes)
 async function forgotPassword(req, res, next) {
   try {
@@ -547,6 +509,27 @@ async function createSuperAdmin() {
   }
 }
 
+async function approveUser(req, res, next) {
+  try {
+    const userId = req.params.id;
+    const updates = { isApproved: true };
+
+    const updatedUser = await updateUser(userId, updates);
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "User approved successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error approving user:", error);
+    next(error);
+  }
+}
+
 module.exports = {
   signup,
   verifyEmail,
@@ -561,4 +544,5 @@ module.exports = {
   getUsersById,
   DriverSignup,
   TruckOwnerSignup,
+  approveUser,
 };

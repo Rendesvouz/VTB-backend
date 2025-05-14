@@ -42,6 +42,11 @@ const User = sequelize.define(
       defaultValue: false,
       allowNull: false,
     },
+    isApproved: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
   },
   {
     tableName: "User",

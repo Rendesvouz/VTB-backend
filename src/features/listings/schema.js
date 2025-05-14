@@ -14,7 +14,7 @@ const listingSchema = Joi.object({
 
 const updatelistingSchema = Joi.object({
   car_name: Joi.string().optional(),
-  description: Joi.string().required(),
+  description: Joi.string().optional(),
   price: Joi.array().optional(),
   pictures: Joi.array().items(Joi.string()).optional(),
   location: Joi.string().optional(),
