@@ -130,6 +130,11 @@ const DriverProfile = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    status: {
+      type: DataTypes.ENUM("employed", "unemployed"),
+      allowNull: false,
+      defaultValue: "unemployed",
+    },
   },
   {
     tableName: "DriverProfile",

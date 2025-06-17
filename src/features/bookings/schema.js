@@ -10,6 +10,7 @@ const locationSchema = Joi.object({
 // Define the main appointment schema
 const appointmentSchema = Joi.object({
   listingId: Joi.string().uuid().optional(),
+  diverId: Joi.string().uuid().optional(),
   appointmentTime: Joi.object({
     date: Joi.string().optional(),
     time: Joi.string().optional(),
@@ -36,6 +37,7 @@ const appointmentSchema = Joi.object({
 // Appointment Joi Schema
 const updateappointmentSchema = Joi.object({
   listingId: Joi.string().uuid().optional(),
+  diverId: Joi.string().uuid().optional(),
   appointmentTime: Joi.object({
     date: Joi.string().optional(),
     time: Joi.string().optional(),

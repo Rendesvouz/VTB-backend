@@ -7,6 +7,7 @@ const profiles = require("../features/profile/route");
 const listings = require("../features/listings/route");
 const bookings = require("../features/bookings/route");
 const list = require("../features/listings/routes");
+const truckowner = require("../features/truckowners/routes");
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.use("/profile", authenticate(), profiles);
 router.use("/listing", authenticate(), listings);
 router.use("/listings", list);
 router.use("/books", authenticate(), bookings);
+router.use("/truckowner", authenticate(), truckowner);
 
 // Catch-All for Undefined Routes
 router.use("*", (req, res) => {

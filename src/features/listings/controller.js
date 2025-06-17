@@ -7,6 +7,7 @@ const { listingSchema, updatelistingSchema } = require("./schema");
 async function createCarOffering(req, res, next) {
   try {
     const dealerId = req.userId;
+    const truckOwnerId = req.userId;
     const offeringPictureUrls = [];
 
     if (req.files && req.files.pictures) {
@@ -28,6 +29,7 @@ async function createCarOffering(req, res, next) {
     const validatedData = await listingSchema.validateAsync(offeringData);
 
     const completeOfferingData = {
+      truckOwnerId,
       ...validatedData,
     };
     const newOffering = await repository.createlisting(completeOfferingData);

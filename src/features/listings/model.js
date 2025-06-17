@@ -12,6 +12,19 @@ const Listings = sequelize.define(
       primaryKey: true,
       allowNull: false,
     },
+    truckOwnerId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: "User",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
+    driverId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
     car_name: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -51,7 +64,10 @@ const Listings = sequelize.define(
       allowNull: true,
     },
   },
-  { timestamps: true, freezeTableName: true }
+  {
+    timestamps: true,
+    freezeTableName: true,
+  }
 );
 
 module.exports = {

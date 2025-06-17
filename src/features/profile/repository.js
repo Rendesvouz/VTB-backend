@@ -71,6 +71,24 @@ async function updatedriverprofile(driverId, updates) {
   }
 }
 
+async function markDriverAsEmployed(driverId) {
+  try {
+    const result = await DriverProfile.update(
+      { status: "employed" },
+      {
+        where: { driverId: driverId },
+        returning: true,
+      }
+    );
+
+    // result[1][0] contains the updated record
+    return result[1][0];
+  } catch (error) {
+    console.log("Error updating driver status to employed:", error);
+    throw error;
+  }
+}
+
 /**
  * Finds a user profile by userId field, including the associated User model.
  * @param {string} userId - The user's ID.
@@ -147,4 +165,5 @@ module.exports = {
   updatetruckownerprofile,
   createdriverprofile,
   updatedriverprofile,
+  markDriverAsEmployed,
 };
