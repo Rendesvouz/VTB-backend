@@ -28,6 +28,7 @@ app.use((req, res, next) => {
 
 // Allowed frontend origins
 const allowedOrigins = [
+  "*",
   "http://localhost:3000",
   //"https://your-production-frontend.com", // ✅ Replace with actual frontend production URL
 ];
