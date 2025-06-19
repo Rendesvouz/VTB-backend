@@ -1,4 +1,4 @@
-const { Listings } = require("./model");
+const { Listings, Category } = require("./model");
 
 /**
  * Creates a new car offering.
@@ -9,7 +9,6 @@ async function createlisting(offeringData) {
 
 /**
  * Fetches all tour guide offerings.
- * @returns {Promise<TourGuideOfferings[]>} - List of all offerings.
  */
 async function getAlllisting() {
   try {
@@ -42,10 +41,52 @@ async function deletelisting(listingId) {
   return true;
 }
 
+/**
+ * Creates a new category.
+ */
+async function createcategory(offeringData) {
+  return await Category.create(offeringData);
+}
+
+/**
+ * Updates category.
+ */
+async function updatecategory(CategoryId, updateData) {
+  const offering = await Category.findByPk(CategoryId);
+  if (!offering) throw new Error("Category offering not found");
+  return await offering.update(updateData);
+}
+
+async function deletecategory(CategoryId) {
+  const offering = await Category.findByPk(CategoryId);
+  if (!offering) {
+    throw new Error("Category offering not found");
+  }
+  await offering.destroy();
+  return true;
+}
+
+async function getAllcategory() {
+  try {
+    return await Category.findAll();
+  } catch (err) {
+    console.error("Error fetching category:", err.message);
+    throw err;
+  }
+}
+
+async function getcategoryById(listingId) {
+  return await Category.findOne({ where: { id: listingId } });
+}
 module.exports = {
   createlisting,
   getlistingById,
   updatelisting,
   getAlllisting,
   deletelisting,
+  deletecategory,
+  updatecategory,
+  createcategory,
+  getAllcategory,
+  getcategoryById,
 };

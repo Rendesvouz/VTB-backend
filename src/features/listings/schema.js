@@ -23,5 +23,10 @@ const updatelistingSchema = Joi.object({
   capacity: Joi.string().optional(),
   availability: Joi.string().valid("available", "unavailable").optional(),
 });
-
-module.exports = { listingSchema, updatelistingSchema };
+const categorySchema = Joi.object({
+  type: Joi.string().required(),
+  baseFare: Joi.number().positive().required(),
+  capacity: Joi.number().integer().positive().required(),
+  dimension: Joi.string().optional().allow(""),
+});
+module.exports = { listingSchema, updatelistingSchema, categorySchema };

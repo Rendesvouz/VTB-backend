@@ -25,8 +25,6 @@ const Appointment = sequelize.define(
     appointmentTime: {
       type: DataTypes.JSONB,
       allowNull: true,
-      description:
-        "Object containing scheduling details such as date and time slots",
     },
     description: {
       type: DataTypes.STRING,
@@ -40,7 +38,8 @@ const Appointment = sequelize.define(
         "request",
         "completed",
         "accept",
-        "decline"
+        "decline",
+        "negotiation"
       ),
       allowNull: true,
     },
@@ -48,6 +47,14 @@ const Appointment = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: true,
     },
+    negotiation: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+      description:
+        "Negotiation history and current status. Keys: proposedBy, userOffer, driverOffer, status",
+      defaultValue: null,
+    },
+
     cancellationReason: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -55,14 +62,10 @@ const Appointment = sequelize.define(
     pickupLocation: {
       type: DataTypes.JSONB,
       allowNull: true,
-      description:
-        "Object containing pickup location with keys: address, city, and country",
     },
     deliveryLocation: {
       type: DataTypes.JSONB,
       allowNull: true,
-      description:
-        "Object containing delivery location with keys: address, city, and country",
     },
     reminders: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),

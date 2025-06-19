@@ -1,5 +1,9 @@
 const repository = require("./repository");
-const { listingSchema, updatelistingSchema } = require("./schema");
+const {
+  listingSchema,
+  updatelistingSchema,
+  categorySchema,
+} = require("./schema");
 
 /**
  * Creates a new car offering.
@@ -120,11 +124,99 @@ const deleteListingById = async (req, res) => {
       .json({ error: error.message || "Failed to delete listing" });
   }
 };
+async function createCategory(req, res) {
+  try {
+    const validatedData = await categorySchema.validateAsync(req.body);
+    const newCategory = await repository.createcategory(validatedData);
 
+    return res.status(201).json({
+      data: newCategory,
+      message: "Category created successfully.",
+    });
+  } catch (err) {
+    console.error("Create category error:", err);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
+}
+
+async function updateCategory(req, res) {
+  try {
+    const { id } = req.params;
+    const validatedData = await categorySchema.validateAsync(req.body);
+    const updatedCategory = await repository.updatecategory(id, validatedData);
+
+    return res.status(200).json({
+      data: updatedCategory,
+      message: "Category updated successfully.",
+    });
+  } catch (err) {
+    console.error("Update category error:", err);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
+}
+
+async function deleteCategory(req, res) {
+  try {
+    const { id } = req.params;
+    await repository.deletecategory(id);
+
+    return res.status(200).json({
+      message: "Category deleted successfully.",
+    });
+  } catch (err) {
+    console.error("Delete category error:", err);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
+}
+
+async function getAllCategories(req, res) {
+  try {
+    const categories = await repository.getAllcategory();
+    return res.status(200).json({ data: categories });
+  } catch (err) {
+    console.error("Fetch categories error:", err);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
+}
+
+async function getCategoryById(req, res) {
+  try {
+    const { id } = req.params;
+    const category = await repository.getcategoryById(id);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found." });
+    }
+
+    return res.status(200).json({ data: category });
+  } catch (err) {
+    console.error("Fetch category by ID error:", err);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
+}
 module.exports = {
   createCarOffering,
   updateCarOffering,
   getAllOffering,
   getOfferingbyid,
   deleteListingById,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  getAllCategories,
+  getCategoryById,
 };

@@ -2,8 +2,11 @@ const express = require("express");
 const {
   createCarOffering,
   updateCarOffering,
-  // getAllOffering,
-  // getOfferingbyid,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  getAllCategories,
+  getCategoryById,
   deleteListingById,
 } = require("./controller");
 
@@ -34,5 +37,10 @@ router.put(
 // router.get("/offerings/:id", getOfferingbyid);
 // router.get("/all-offerings", getAllOffering);
 router.delete("/offering/:id", deleteListingById);
+router.post("/category", createCategory);
+router.get("/category", getAllCategories);
+router.get("/category/:id", getCategoryById);
+router.put("/category/:id", updateCategory);
+router.delete("/category/:id", deleteCategory);
 
 module.exports = router;

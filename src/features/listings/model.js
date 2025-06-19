@@ -70,6 +70,41 @@ const Listings = sequelize.define(
   }
 );
 
+const Category = sequelize.define(
+  "Category",
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    baseFare: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      description: "Base price or starting fare for this category",
+    },
+    capacity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      description: "How many passengers/items the category can handle",
+    },
+    dimension: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      description: "Textual description of dimensions (e.g., 6ft x 4ft x 3ft)",
+    },
+  },
+  {
+    tableName: "Category",
+    timestamps: true,
+  }
+);
+
 module.exports = {
   Listings,
+  Category,
 };

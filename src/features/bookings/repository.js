@@ -160,6 +160,31 @@ async function cancelAppointment(appointmentId, userId, cancellationReason) {
     throw new Error("Error cancelling appointment: " + err.message);
   }
 }
+/**
+ * Updates negotiation data for an appointment.
+ * @param {UUID} appointmentId - The appointment ID.
+ * @param {Object} negotiationData - The new negotiation state.
+ * @returns {Promise<Appointment>}
+ */
+async function negotiateAppointment(appointmentId, negotiationData) {
+  try {
+    const appointment = await Appointment.findByPk(appointmentId);
+    if (!appointment) throw new Error("Appointment not found");
+
+    const updatedNegotiation = {
+      ...appointment.negotiation,
+      ...negotiationData,
+    };
+
+    return await appointment.update({
+      negotiation: updatedNegotiation,
+      status: "negotiation",
+    });
+  } catch (err) {
+    console.log("Negotiation update error:", err.message);
+    throw new Error("Negotiation failed: " + err.message);
+  }
+}
 
 module.exports = {
   createAppointment,
@@ -171,4 +196,5 @@ module.exports = {
   rescheduleAppointment,
   cancelAppointment,
   getAllAppointments,
+  negotiateAppointment,
 };

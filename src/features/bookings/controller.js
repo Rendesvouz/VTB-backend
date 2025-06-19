@@ -3,6 +3,7 @@ const {
   appointmentSchema,
   updateStatusSchema,
   updateappointmentSchema,
+  negotiationSchema,
 } = require("./schema");
 
 async function createBooking(req, res, next) {
@@ -109,6 +110,33 @@ const getallbooking = async (req, res) => {
   }
 };
 
+async function negotiatePrice(req, res) {
+  try {
+    const { appointmentId } = req.params;
+
+    // Validate using Joi schema
+    const validatedNegotiation = await negotiationSchema.validateAsync(
+      req.body
+    );
+
+    const updatedAppointment = await repository.negotiateAppointment(
+      appointmentId,
+      validatedNegotiation
+    );
+
+    return res.status(200).json({
+      data: updatedAppointment,
+      message: "Negotiation updated successfully.",
+    });
+  } catch (err) {
+    console.error("Negotiation error: ", err);
+    return res.status(400).json({
+      message: "Negotiation failed",
+      error: err.message,
+    });
+  }
+}
+
 module.exports = {
   createBooking,
   getallbooking,
@@ -116,4 +144,5 @@ module.exports = {
   updateAppointmentStatusController,
   getuserbooking,
   getuserbookingbyid,
+  negotiatePrice,
 };

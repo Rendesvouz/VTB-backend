@@ -7,10 +7,18 @@ const locationSchema = Joi.object({
   country: Joi.string().max(100).optional(),
 });
 
+const negotiationSchema = Joi.object({
+  proposedBy: Joi.string().valid("user", "driver").optional(),
+  userOffer: Joi.number().optional(),
+  driverOffer: Joi.number().optional(),
+  status: Joi.string()
+    .valid("proposed", "accepted", "rejected", "countered")
+    .optional(),
+});
 // Define the main appointment schema
 const appointmentSchema = Joi.object({
   listingId: Joi.string().uuid().optional(),
-  diverId: Joi.string().uuid().optional(),
+  driverId: Joi.string().uuid().optional(),
   appointmentTime: Joi.object({
     date: Joi.string().optional(),
     time: Joi.string().optional(),
@@ -32,12 +40,13 @@ const appointmentSchema = Joi.object({
   pickupLocation: locationSchema.optional(),
   deliveryLocation: locationSchema.optional(),
   reminders: Joi.array().items(Joi.number().integer()).optional(),
+  negotiation: negotiationSchema.optional(),
 });
 
 // Appointment Joi Schema
 const updateappointmentSchema = Joi.object({
   listingId: Joi.string().uuid().optional(),
-  diverId: Joi.string().uuid().optional(),
+  driverId: Joi.string().uuid().optional(),
   appointmentTime: Joi.object({
     date: Joi.string().optional(),
     time: Joi.string().optional(),
@@ -66,8 +75,10 @@ const updateStatusSchema = Joi.object({
     .valid("scheduled", "rescheduled", "cancelled", "completed")
     .required(),
 });
+
 module.exports = {
   appointmentSchema,
   updateStatusSchema,
   updateappointmentSchema,
+  negotiationSchema,
 };
