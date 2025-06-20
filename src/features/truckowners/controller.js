@@ -1,5 +1,6 @@
 const repository = require("./repository");
 const profilerepository = require("../profile/repository");
+const listingrepository = require("../listings/repository");
 const { assignTruckSchema, employmentSchema } = require("./schema");
 
 async function createemployment(req, res, next) {
@@ -32,6 +33,10 @@ async function createeassigntruck(req, res, next) {
     const newUserData = { ...validatedData, truckOwnerId };
 
     const newUser = await repository.createAssigntruck(newUserData);
+    const assign = await listingrepository.updateListingDriverId(
+      validatedData.listingId,
+      validatedData.driverId
+    );
 
     return res.status(201).json({
       data: newUser,

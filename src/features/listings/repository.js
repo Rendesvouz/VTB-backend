@@ -32,6 +32,14 @@ async function updatelisting(listingId, updateData) {
   return await offering.update(updateData);
 }
 
+async function updateListingDriverId(listingId, driverId) {
+  const offering = await Listings.findByPk(listingId);
+  if (!offering) throw new Error("Car offering not found");
+
+  // Only update the driverId field
+  return await offering.update({ driverId });
+}
+
 async function deletelisting(listingId) {
   const offering = await Listings.findByPk(listingId);
   if (!offering) {
@@ -89,4 +97,5 @@ module.exports = {
   createcategory,
   getAllcategory,
   getcategoryById,
+  updateListingDriverId,
 };
