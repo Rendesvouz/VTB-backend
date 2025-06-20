@@ -34,7 +34,7 @@ async function createeassigntruck(req, res, next) {
 
     const newUser = await repository.createAssigntruck(newUserData);
     const assign = await listingrepository.updateListingDriverId(
-      validatedData.listingId,
+      validatedData.truckId,
       validatedData.driverId
     );
 
