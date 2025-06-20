@@ -155,6 +155,15 @@ async function finddriverrprofileById(driverId) {
   }
 }
 
+async function getAlldriverprofile() {
+  try {
+    return await DriverProfile.findAll();
+  } catch (err) {
+    console.error("Error fetching drivers profile:", err.message);
+    throw err;
+  }
+}
+
 module.exports = {
   updateUserprofile,
   finddriverrprofileById,
@@ -166,4 +175,5 @@ module.exports = {
   createdriverprofile,
   updatedriverprofile,
   markDriverAsEmployed,
+  getAlldriverprofile,
 };

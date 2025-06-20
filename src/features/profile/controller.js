@@ -295,6 +295,18 @@ async function updatedriverprofileController(req, res, next) {
   }
 }
 
+async function getalldriver(req, res, next) {
+  try {
+    const offerings = await repository.getAlldriverprofile();
+    res.status(200).json({
+      message: "driver profile retrieved successfully",
+      data: offerings,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getUserprofileById,
   getDriverprofileById,
@@ -308,4 +320,5 @@ module.exports = {
   updatetruckprofileController,
   createdriverProfile,
   updatedriverprofileController,
+  getalldriver,
 };
