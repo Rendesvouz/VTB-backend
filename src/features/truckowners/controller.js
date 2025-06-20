@@ -158,6 +158,32 @@ async function deleteAssignTruck(req, res) {
       .json({ message: "Internal Server Error", error: error.message });
   }
 }
+/**
+ * Controller to get all driver profiles assigned to a truck owner
+ */
+async function getDriversByTruckOwner(req, res) {
+  try {
+    const truckownerId = req.userId;
+
+    if (!truckownerId) {
+      return res.status(400).json({ message: "Truck owner ID is required." });
+    }
+
+    const drivers =
+      await profilerepository.getAllDriverProfilesByTruckOwner(truckownerId);
+
+    return res.status(200).json({
+      data: drivers,
+      message: "Driver profiles fetched successfully.",
+    });
+  } catch (err) {
+    console.error("Error fetching driver profiles:", err);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: err.message,
+    });
+  }
+}
 
 module.exports = {
   createemployment,
@@ -168,4 +194,5 @@ module.exports = {
   getAssignTruckById,
   updateAssignTruck,
   deleteAssignTruck,
+  getDriversByTruckOwner,
 };

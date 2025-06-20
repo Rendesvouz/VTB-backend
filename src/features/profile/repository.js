@@ -164,6 +164,17 @@ async function getAlldriverprofile() {
   }
 }
 
+async function getAllDriverProfilesByTruckOwner(truckownerId) {
+  try {
+    return await DriverProfile.findAll({
+      where: { truckownerId },
+    });
+  } catch (err) {
+    console.error("Error fetching driver profiles:", err.message);
+    throw err;
+  }
+}
+
 module.exports = {
   updateUserprofile,
   finddriverrprofileById,
@@ -176,4 +187,5 @@ module.exports = {
   updatedriverprofile,
   markDriverAsEmployed,
   getAlldriverprofile,
+  getAllDriverProfilesByTruckOwner,
 };

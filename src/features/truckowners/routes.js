@@ -6,6 +6,7 @@ const router = express.Router();
 router.post("/employ", controller.createemployment);
 router.post("/assign-truck", controller.createeassigntruck);
 router.get("/employment/:id", controller.getEmploymentById);
+router.get("/get-drivers", controller.getDriversByTruckOwner);
 router.put("/employment/:id", controller.updateEmployment);
 router.delete("/employment/:id", controller.deleteEmployment);
 router.get("/assign-truck/:id", controller.getAssignTruckById);

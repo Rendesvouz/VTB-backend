@@ -102,6 +102,15 @@ const DriverProfile = sequelize.define(
       },
       onDelete: "CASCADE",
     },
+    truckownerId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: "User",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
     fullName: {
       type: DataTypes.STRING,
       allowNull: false,
