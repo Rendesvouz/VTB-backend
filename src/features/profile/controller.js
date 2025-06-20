@@ -238,9 +238,9 @@ const gettruckownerprofileById = async (req, res) => {
 
 // Function to get user by ID
 const getDriverprofileById = async (req, res) => {
-  const { truckownerId } = req.params;
+  const { driverId } = req.params;
   try {
-    const user = await repository.finddriverrprofileById(truckownerId);
+    const user = await repository.finddriverrprofileById(driverId);
     if (!user) {
       return res.status(404).json({ message: "driver profile not found" });
     }
