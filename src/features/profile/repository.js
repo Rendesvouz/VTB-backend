@@ -89,6 +89,24 @@ async function markDriverAsEmployed(driverId) {
   }
 }
 
+async function markTruckOwnerForDriver(driverId, truckownerId) {
+  try {
+    const result = await DriverProfile.update(
+      { truckownerId },
+      {
+        where: { driverId },
+        returning: true,
+      }
+    );
+
+    // result[1][0] contains the updated record
+    return result[1][0];
+  } catch (error) {
+    console.log("Error updating driver truckownerId:", error);
+    throw error;
+  }
+}
+
 /**
  * Finds a user profile by userId field, including the associated User model.
  * @param {string} userId - The user's ID.
@@ -188,4 +206,5 @@ module.exports = {
   markDriverAsEmployed,
   getAlldriverprofile,
   getAllDriverProfilesByTruckOwner,
+  markTruckOwnerForDriver,
 };

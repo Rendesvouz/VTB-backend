@@ -13,6 +13,10 @@ async function createemployment(req, res, next) {
     const update = await profilerepository.markDriverAsEmployed(
       validatedData.driverId
     );
+    const drive = await profilerepository.markTruckOwnerForDriver(
+      validatedData.driverId,
+      truckOwnerId
+    );
 
     return res.status(201).json({
       data: newUser,
