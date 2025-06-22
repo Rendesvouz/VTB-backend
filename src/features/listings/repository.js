@@ -86,16 +86,17 @@ async function getAllcategory() {
 async function getcategoryById(listingId) {
   return await Category.findOne({ where: { id: listingId } });
 }
-async function getAlllistingByTruckOwner(truckownerId) {
+async function getAlllistingByTruckOwner(truckOwnerId) {
   try {
     return await Listings.findAll({
-      where: { truckownerId },
+      where: { truckOwnerId },
     });
   } catch (err) {
     console.error("Error fetching driver profiles:", err.message);
     throw err;
   }
 }
+
 module.exports = {
   createlisting,
   getlistingById,

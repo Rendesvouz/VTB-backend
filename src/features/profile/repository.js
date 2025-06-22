@@ -73,16 +73,12 @@ async function updatedriverprofile(driverId, updates) {
 
 async function markDriverAsEmployed(driverId) {
   try {
-    const result = await DriverProfile.update(
-      { status: "employed" },
-      {
-        where: { driverId: driverId },
-        returning: true,
-      }
-    );
+    const driver = await DriverProfile.findOne({ where: { driverId } });
+    if (!driver) throw new Error("Driver not found");
 
-    // result[1][0] contains the updated record
-    return result[1][0];
+    driver.status = "employed";
+    await driver.save();
+    return driver;
   } catch (error) {
     console.log("Error updating driver status to employed:", error);
     throw error;
@@ -91,16 +87,12 @@ async function markDriverAsEmployed(driverId) {
 
 async function markTruckOwnerForDriver(driverId, truckownerId) {
   try {
-    const result = await DriverProfile.update(
-      { truckownerId },
-      {
-        where: { driverId },
-        returning: true,
-      }
-    );
+    const driver = await DriverProfile.findOne({ where: { driverId } });
+    if (!driver) throw new Error("Driver not found");
 
-    // result[1][0] contains the updated record
-    return result[1][0];
+    driver.truckownerId = truckownerId;
+    await driver.save();
+    return driver;
   } catch (error) {
     console.log("Error updating driver truckownerId:", error);
     throw error;

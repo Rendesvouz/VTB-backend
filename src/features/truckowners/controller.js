@@ -8,8 +8,6 @@ async function createemployment(req, res, next) {
     const truckOwnerId = req.userId;
     const validatedData = await employmentSchema.validateAsync(req.body);
     const newUserData = { ...validatedData, truckOwnerId };
-
-    const newUser = await repository.createEmployment(newUserData);
     const update = await profilerepository.markDriverAsEmployed(
       validatedData.driverId
     );
@@ -17,6 +15,14 @@ async function createemployment(req, res, next) {
       validatedData.driverId,
       truckOwnerId
     );
+    const newUser = await repository.createEmployment(newUserData);
+    // const update = await profilerepository.markDriverAsEmployed(
+    //   validatedData.driverId
+    // );
+    // const drive = await profilerepository.markTruckOwnerForDriver(
+    //   validatedData.driverId,
+    //   truckOwnerId
+    // );
 
     return res.status(201).json({
       data: newUser,
