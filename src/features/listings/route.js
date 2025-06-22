@@ -8,6 +8,7 @@ const {
   getAllCategories,
   getCategoryById,
   deleteListingById,
+  getalltruckownerlisting,
 } = require("./controller");
 
 const {
@@ -42,5 +43,6 @@ router.get("/category", getAllCategories);
 router.get("/category/:id", getCategoryById);
 router.put("/category/:id", updateCategory);
 router.delete("/category/:id", deleteCategory);
+router.get("/all-truckowner-listing", getalltruckownerlisting);
 
 module.exports = router;

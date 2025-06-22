@@ -208,6 +208,22 @@ async function getCategoryById(req, res) {
     });
   }
 }
+
+const getalltruckownerlisting = async (req, res) => {
+  const truckownerId = req.userId;
+  try {
+    const user = await repository.getAlllistingByTruckOwner(truckownerId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "truck owner listings not found" });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 module.exports = {
   createCarOffering,
   updateCarOffering,
@@ -219,4 +235,5 @@ module.exports = {
   deleteCategory,
   getAllCategories,
   getCategoryById,
+  getalltruckownerlisting,
 };
