@@ -149,22 +149,6 @@ async function findtruckownerprofileById(truckownerId) {
  * @param {string} userId - The user's ID.
  * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
  */
-// async function finddriverrprofileById(driverId) {
-//   try {
-//     const driverProfile = await DriverProfile.findOne({
-//       where: { driverId },
-//       include: [
-//         {
-//           model: User,
-//           as: "User",
-//         },
-//       ],
-//     });
-//     return driverProfile || null;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
 
 async function finddriverrprofileById(driverId) {
   try {
@@ -177,7 +161,7 @@ async function finddriverrprofileById(driverId) {
         },
         {
           model: DriverLocation,
-          as: "location", // ✅ must match the alias in your association
+          as: "location",
         },
       ],
     });
@@ -187,21 +171,13 @@ async function finddriverrprofileById(driverId) {
   }
 }
 
-// async function getAlldriverprofile() {
-//   try {
-//     return await DriverProfile.findAll();
-//   } catch (err) {
-//     console.error("Error fetching drivers profile:", err.message);
-//     throw err;
-//   }
-// }
 async function getAlldriverprofile() {
   try {
     return await DriverProfile.findAll({
       include: [
         {
           model: DriverLocation,
-          as: "location", // ✅ must match the alias in your association
+          as: "location",
         },
       ],
     });
@@ -211,17 +187,6 @@ async function getAlldriverprofile() {
   }
 }
 
-// async function getAllDriverProfilesByTruckOwner(truckownerId) {
-//   try {
-//     return await DriverProfile.findAll({
-//       where: { truckownerId },
-//     });
-//   } catch (err) {
-//     console.error("Error fetching driver profiles:", err.message);
-//     throw err;
-//   }
-// }
-
 async function getAllDriverProfilesByTruckOwner(truckownerId) {
   try {
     return await DriverProfile.findAll({
@@ -229,7 +194,7 @@ async function getAllDriverProfilesByTruckOwner(truckownerId) {
       include: [
         {
           model: DriverLocation,
-          as: "location", // ✅ must match the alias in your association
+          as: "location",
         },
       ],
     });
