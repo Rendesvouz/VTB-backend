@@ -1,6 +1,7 @@
 const { UserProfile, TruckOwner, DriverProfile } = require("./model");
 const { User } = require("../authentication/model");
 const { Op, Sequelize } = require("sequelize");
+const { DriverLocation } = require("../location/model");
 
 // Create a new user
 /**
@@ -148,6 +149,23 @@ async function findtruckownerprofileById(truckownerId) {
  * @param {string} userId - The user's ID.
  * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
  */
+// async function finddriverrprofileById(driverId) {
+//   try {
+//     const driverProfile = await DriverProfile.findOne({
+//       where: { driverId },
+//       include: [
+//         {
+//           model: User,
+//           as: "User",
+//         },
+//       ],
+//     });
+//     return driverProfile || null;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
 async function finddriverrprofileById(driverId) {
   try {
     const driverProfile = await DriverProfile.findOne({
@@ -157,6 +175,9 @@ async function finddriverrprofileById(driverId) {
           model: User,
           as: "User",
         },
+        {
+          model: DriverLocation,
+        },
       ],
     });
     return driverProfile || null;
@@ -165,19 +186,49 @@ async function finddriverrprofileById(driverId) {
   }
 }
 
+// async function getAlldriverprofile() {
+//   try {
+//     return await DriverProfile.findAll();
+//   } catch (err) {
+//     console.error("Error fetching drivers profile:", err.message);
+//     throw err;
+//   }
+// }
 async function getAlldriverprofile() {
   try {
-    return await DriverProfile.findAll();
+    return await DriverProfile.findAll({
+      include: [
+        {
+          model: DriverLocation,
+        },
+      ],
+    });
   } catch (err) {
     console.error("Error fetching drivers profile:", err.message);
     throw err;
   }
 }
 
+// async function getAllDriverProfilesByTruckOwner(truckownerId) {
+//   try {
+//     return await DriverProfile.findAll({
+//       where: { truckownerId },
+//     });
+//   } catch (err) {
+//     console.error("Error fetching driver profiles:", err.message);
+//     throw err;
+//   }
+// }
+
 async function getAllDriverProfilesByTruckOwner(truckownerId) {
   try {
     return await DriverProfile.findAll({
       where: { truckownerId },
+      include: [
+        {
+          model: DriverLocation,
+        },
+      ],
     });
   } catch (err) {
     console.error("Error fetching driver profiles:", err.message);

@@ -1,0 +1,56 @@
+const { DriverLocation, ListingLocation } = require("./model");
+
+/**
+ * Creates a new driver location.
+ */
+async function createDriverLocation(data) {
+  return await DriverLocation.create(data);
+}
+
+/**
+ * Updates a driver's location by their driverId.
+ */
+async function updateDriverLocation(driverId, newLocation) {
+  const location = await DriverLocation.findOne({ where: { driverId } });
+  if (!location) throw new Error("Driver location not found");
+  return await location.update({ location: newLocation });
+}
+
+/**
+ * Finds a driver's location by driverId.
+ */
+async function findDriverLocationByDriverId(driverId) {
+  return await DriverLocation.findOne({ where: { driverId } });
+}
+
+/**
+ * Creates a new listing location.
+ */
+async function createListingLocation(data) {
+  return await ListingLocation.create(data);
+}
+
+/**
+ * Updates a listing's location by listingId.
+ */
+async function updateListingLocation(listingId, newLocation) {
+  const location = await ListingLocation.findOne({ where: { listingId } });
+  if (!location) throw new Error("Listing location not found");
+  return await location.update({ location: newLocation });
+}
+
+/**
+ * Finds a listing's location by listingId.
+ */
+async function findListingLocationByListingId(listingId) {
+  return await ListingLocation.findOne({ where: { listingId } });
+}
+
+module.exports = {
+  createListingLocation,
+  updateListingLocation,
+  findListingLocationByListingId,
+  createDriverLocation,
+  updateDriverLocation,
+  findDriverLocationByDriverId,
+};

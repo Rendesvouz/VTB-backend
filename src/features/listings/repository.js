@@ -1,5 +1,5 @@
 const { Listings, Category } = require("./model");
-
+const { ListingLocation } = require("../location/model");
 /**
  * Creates a new car offering.
  */
@@ -10,17 +10,46 @@ async function createlisting(offeringData) {
 /**
  * Fetches all tour guide offerings.
  */
+// async function getAlllisting() {
+//   try {
+//     return await Listings.findAll();
+//   } catch (err) {
+//     console.error("Error fetching offerings:", err.message);
+//     throw err;
+//   }
+// }
+
+// async function getlistingById(listingId) {
+//   return await Listings.findOne({ where: { id: listingId } });
+// }
+
+/**
+ * Fetches all listings including their location.
+ */
 async function getAlllisting() {
   try {
-    return await Listings.findAll();
+    return await Listings.findAll({
+      include: [{ model: ListingLocation }],
+    });
   } catch (err) {
     console.error("Error fetching offerings:", err.message);
     throw err;
   }
 }
 
+/**
+ * Fetches a single listing by ID including its location.
+ */
 async function getlistingById(listingId) {
-  return await Listings.findOne({ where: { id: listingId } });
+  try {
+    return await Listings.findOne({
+      where: { id: listingId },
+      include: [{ model: ListingLocation }],
+    });
+  } catch (err) {
+    console.error("Error fetching listing:", err.message);
+    throw err;
+  }
 }
 
 /**
@@ -90,6 +119,7 @@ async function getAlllistingByTruckOwner(truckOwnerId) {
   try {
     return await Listings.findAll({
       where: { truckOwnerId },
+      include: [{ model: ListingLocation }],
     });
   } catch (err) {
     console.error("Error fetching driver profiles:", err.message);
