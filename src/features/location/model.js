@@ -15,6 +15,10 @@ const DriverLocation = sequelize.define(
     driverId: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: "DriverProfile",
+        key: "driverId",
+      },
       onDelete: "CASCADE",
     },
     location: {
@@ -67,6 +71,19 @@ Listings.hasOne(ListingLocation, {
 
 ListingLocation.belongsTo(Listings, {
   foreignKey: "listingId",
+  onDelete: "CASCADE",
+});
+DriverProfile.hasOne(DriverLocation, {
+  foreignKey: "driverId",
+  sourceKey: "driverId",
+  as: "location",
+  onDelete: "CASCADE",
+});
+
+DriverLocation.belongsTo(DriverProfile, {
+  foreignKey: "driverId",
+  targetKey: "driverId",
+  as: "driver",
   onDelete: "CASCADE",
 });
 

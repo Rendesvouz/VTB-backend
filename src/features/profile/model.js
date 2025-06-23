@@ -96,6 +96,7 @@ const DriverProfile = sequelize.define(
     driverId: {
       type: DataTypes.UUID,
       allowNull: false,
+      unique: true, // Ensure driverId is unique so it can be referenced
       references: {
         model: "User",
         key: "id",

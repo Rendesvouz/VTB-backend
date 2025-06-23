@@ -177,6 +177,7 @@ async function finddriverrprofileById(driverId) {
         },
         {
           model: DriverLocation,
+          as: "location", // ✅ must match the alias in your association
         },
       ],
     });
@@ -200,6 +201,7 @@ async function getAlldriverprofile() {
       include: [
         {
           model: DriverLocation,
+          as: "location", // ✅ must match the alias in your association
         },
       ],
     });
@@ -227,6 +229,7 @@ async function getAllDriverProfilesByTruckOwner(truckownerId) {
       include: [
         {
           model: DriverLocation,
+          as: "location", // ✅ must match the alias in your association
         },
       ],
     });
