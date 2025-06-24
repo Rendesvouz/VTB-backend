@@ -88,13 +88,13 @@ async function createDriverLocation(req, res, next) {
         await repository.findListingLocationByListingId(listingId);
       if (existingListing) {
         listingLocation = await repository.updateListingLocation(
-          driverId,
+          listingId,
           location,
           onlineStatus
         );
       } else {
         listingLocation = await repository.createListingLocation({
-          driverId,
+          listingId,
           location,
           onlineStatus: onlineStatus ?? false,
         });
