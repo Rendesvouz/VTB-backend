@@ -4,6 +4,10 @@ const locationschema = Joi.object({
   location: Joi.array()
     .optional()
     .description("List of languages spoken by the user."),
+  onlineStatus: Joi.boolean()
+    .optional()
+    .default(false)
+    .description("Driver's online status (true or false)"),
 });
 
 module.exports = {

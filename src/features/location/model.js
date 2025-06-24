@@ -21,6 +21,12 @@ const DriverLocation = sequelize.define(
       },
       onDelete: "CASCADE",
     },
+    onlineStatus: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      description: "Driver's current online status",
+    },
     location: {
       type: DataTypes.JSONB,
       allowNull: false,
