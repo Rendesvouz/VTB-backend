@@ -57,6 +57,12 @@ const ListingLocation = sequelize.define(
       },
       onDelete: "CASCADE",
     },
+    onlineStatus: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      description: "truck's current online status",
+    },
     location: {
       type: DataTypes.JSONB,
       allowNull: false,
