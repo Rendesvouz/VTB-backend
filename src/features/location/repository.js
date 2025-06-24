@@ -33,10 +33,23 @@ async function createListingLocation(data) {
 /**
  * Updates a listing's location by listingId.
  */
-async function updateListingLocation(listingId, newLocation) {
-  const location = await ListingLocation.findOne({ where: { listingId } });
-  if (!location) throw new Error("Listing location not found");
-  return await location.update({ location: newLocation });
+// async function updateListingLocation(listingId, newLocation) {
+//   const location = await ListingLocation.findOne({ where: { listingId } });
+//   if (!location) throw new Error("Listing location not found");
+//   return await location.update({ location: newLocation });
+// }
+/**
+ * Updates a driver's location and online status by their driverId.
+ */
+async function updateDriverLocation(driverId, newLocation, onlineStatus) {
+  const locationRecord = await DriverLocation.findOne({ where: { driverId } });
+  if (!locationRecord) throw new Error("Driver location not found");
+
+  return await locationRecord.update({
+    location: newLocation,
+    onlineStatus:
+      onlineStatus !== undefined ? onlineStatus : locationRecord.onlineStatus,
+  });
 }
 
 /**
