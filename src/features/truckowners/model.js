@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 const sequelize = require("../../config/dbconfig");
+const { DriverProfile } = require("../profile/model");
 
 const Employment = sequelize.define(
   "Employment",
@@ -57,6 +58,11 @@ const AssignTruck = sequelize.define(
     driverId: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: "DriverProfile",
+        key: "driverId",
+      },
+      onDelete: "CASCADE",
     },
     truckId: {
       type: DataTypes.UUID,
@@ -82,6 +88,20 @@ const AssignTruck = sequelize.define(
   }
 );
 
+DriverProfile.hasMany(AssignTruck, {
+  foreignKey: "driverId",
+  sourceKey: "driverId",
+  as: "assignedTrucks",
+  onDelete: "CASCADE",
+});
+
+// AssignTruck → DriverProfile
+AssignTruck.belongsTo(DriverProfile, {
+  foreignKey: "driverId",
+  targetKey: "driverId",
+  as: "driverProfile",
+  onDelete: "CASCADE",
+});
 module.exports = {
   Employment,
   AssignTruck,

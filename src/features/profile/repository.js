@@ -2,6 +2,7 @@ const { UserProfile, TruckOwner, DriverProfile } = require("./model");
 const { User } = require("../authentication/model");
 const { Op, Sequelize } = require("sequelize");
 const { DriverLocation } = require("../location/model");
+const { AssignTruck } = require("../truckowners/model");
 
 // Create a new user
 /**
@@ -163,6 +164,10 @@ async function finddriverrprofileById(driverId) {
           model: DriverLocation,
           as: "location",
         },
+        {
+          model: AssignTruck,
+          as: "assignedTrucks",
+        },
       ],
     });
     return driverProfile || null;
@@ -178,6 +183,10 @@ async function getAlldriverprofile() {
         {
           model: DriverLocation,
           as: "location",
+        },
+        {
+          model: AssignTruck,
+          as: "assignedTrucks",
         },
       ],
     });
@@ -195,6 +204,10 @@ async function getAllDriverProfilesByTruckOwner(truckownerId) {
         {
           model: DriverLocation,
           as: "location",
+        },
+        {
+          model: AssignTruck,
+          as: "assignedTrucks",
         },
       ],
     });
