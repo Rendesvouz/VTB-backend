@@ -307,21 +307,23 @@ async function getalldriver(req, res, next) {
   }
 }
 
-async function updateQueryStatusController(req, res) {
+async function updateSuspensionStatusController(req, res) {
   try {
     const { driverId } = req.params;
-    const { querystatus } = req.body;
+    const { isSuspended } = req.body;
 
-    if (!["active", "suspended"].includes(querystatus)) {
-      return res.status(400).json({ message: "Invalid querystatus value." });
+    if (typeof isSuspended !== "boolean") {
+      return res
+        .status(400)
+        .json({ message: "`isSuspended` must be a boolean value." });
     }
 
-    const updatedProfile = await repository.updateQueryStatus(
+    const updatedProfile = await repository.updateSuspensionStatus(
       driverId,
-      querystatus
+      isSuspended
     );
     return res.status(200).json({
-      message: "Query status updated successfully.",
+      message: "Suspension status updated successfully.",
       data: updatedProfile,
     });
   } catch (err) {
@@ -345,5 +347,5 @@ module.exports = {
   createdriverProfile,
   updatedriverprofileController,
   getalldriver,
-  updateQueryStatusController,
+  updateSuspensionStatusController,
 };

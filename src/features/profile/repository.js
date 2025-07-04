@@ -217,9 +217,9 @@ async function getAllDriverProfilesByTruckOwner(truckownerId) {
   }
 }
 
-async function updateQueryStatus(driverId, newStatus) {
+async function updateSuspensionStatus(driverId, isSuspended) {
   const [updatedCount] = await DriverProfile.update(
-    { querystatus: newStatus },
+    { isSuspended },
     {
       where: { driverId },
     }
@@ -246,5 +246,5 @@ module.exports = {
   getAlldriverprofile,
   getAllDriverProfilesByTruckOwner,
   markTruckOwnerForDriver,
-  updateQueryStatus,
+  updateSuspensionStatus,
 };

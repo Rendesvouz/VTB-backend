@@ -145,10 +145,10 @@ const DriverProfile = sequelize.define(
       allowNull: false,
       defaultValue: "unemployed",
     },
-    querystatus: {
-      type: DataTypes.ENUM("active", "suspended"),
+    isSuspended: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: "active",
+      defaultValue: false,
     },
   },
   {
