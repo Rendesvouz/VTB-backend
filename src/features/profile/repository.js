@@ -217,6 +217,21 @@ async function getAllDriverProfilesByTruckOwner(truckownerId) {
   }
 }
 
+async function updateQueryStatus(driverId, newStatus) {
+  const [updatedCount] = await DriverProfile.update(
+    { querystatus: newStatus },
+    {
+      where: { driverId },
+    }
+  );
+
+  if (updatedCount === 0) {
+    throw new Error("Driver profile not found or no update made.");
+  }
+
+  return await DriverProfile.findOne({ where: { driverId } });
+}
+
 module.exports = {
   updateUserprofile,
   finddriverrprofileById,
@@ -231,4 +246,5 @@ module.exports = {
   getAlldriverprofile,
   getAllDriverProfilesByTruckOwner,
   markTruckOwnerForDriver,
+  updateQueryStatus,
 };

@@ -144,7 +144,7 @@ async function sendVerificationCodeEmail(req, email, code) {
     console.error(
       `Error sending verification code to ${email}: ${error.message}`
     );
-    console.log.error(
+    console.error(
       `Error sending verification code to ${email}: ${error.message}`
     );
 

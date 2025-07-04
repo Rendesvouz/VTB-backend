@@ -96,7 +96,7 @@ const DriverProfile = sequelize.define(
     driverId: {
       type: DataTypes.UUID,
       allowNull: false,
-      unique: true, // Ensure driverId is unique so it can be referenced
+      unique: true,
       references: {
         model: "User",
         key: "id",
@@ -144,6 +144,11 @@ const DriverProfile = sequelize.define(
       type: DataTypes.ENUM("employed", "unemployed"),
       allowNull: false,
       defaultValue: "unemployed",
+    },
+    querystatus: {
+      type: DataTypes.ENUM("active", "suspended"),
+      allowNull: false,
+      defaultValue: "active",
     },
   },
   {

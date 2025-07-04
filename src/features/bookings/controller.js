@@ -25,29 +25,6 @@ async function createBooking(req, res, next) {
   }
 }
 
-// async function updatecreateBooking(req, res, next) {
-//   try {
-//     const userId = req.userId;
-
-//     // Validate the update data
-//     const validatedData = await updateappointmentSchema.validateAsync(req.body);
-
-//     const updatedUser = await repository.updateAppointment(
-//       userId,
-//       validatedData
-//     );
-//     return res.status(200).json({
-//       message: "Profile updated successfully.",
-//       data: updatedUser,
-//     });
-//   } catch (err) {
-//     console.error("Update Profile Error: ", err);
-//     return res
-//       .status(500)
-//       .json({ message: "Internal Server Error", error: err.message });
-//   }
-// }
-
 /**
  * Controller to update the status of an appointment.
  */

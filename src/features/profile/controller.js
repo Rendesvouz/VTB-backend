@@ -307,6 +307,30 @@ async function getalldriver(req, res, next) {
   }
 }
 
+async function updateQueryStatusController(req, res) {
+  try {
+    const { driverId } = req.params;
+    const { querystatus } = req.body;
+
+    if (!["active", "suspended"].includes(querystatus)) {
+      return res.status(400).json({ message: "Invalid querystatus value." });
+    }
+
+    const updatedProfile = await repository.updateQueryStatus(
+      driverId,
+      querystatus
+    );
+    return res.status(200).json({
+      message: "Query status updated successfully.",
+      data: updatedProfile,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message || "Internal Server Error",
+    });
+  }
+}
+
 module.exports = {
   getUserprofileById,
   getDriverprofileById,
@@ -321,4 +345,5 @@ module.exports = {
   createdriverProfile,
   updatedriverprofileController,
   getalldriver,
+  updateQueryStatusController,
 };

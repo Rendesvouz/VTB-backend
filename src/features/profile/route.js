@@ -25,6 +25,7 @@ router.put(
   "/update-truckownerprofile",
   controller.updatetruckprofileController
 );
+router.patch("/:driverId/querystatus", controller.updateQueryStatusController);
 router.put("/update-driverprofile", controller.updatedriverprofileController);
 router.get("/driverprofiles/:driverId", controller.getDriverprofileById);
 router.get("/driverprofile", controller.getdriverprofileById);

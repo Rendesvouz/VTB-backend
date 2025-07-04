@@ -55,7 +55,6 @@ async function signup(req, res, next) {
     const validatedData = await signupSchema.validateAsync(req.body);
 
     const existingUser = await findUserByEmail(validatedData.email);
-
     if (existingUser) {
       return res.status(409).json({ message: "Account already exists!" });
     }
@@ -64,6 +63,7 @@ async function signup(req, res, next) {
     const newUserData = { ...validatedData, password: hashedPassword };
 
     const newUser = await createUser(newUserData);
+
     const verificationCode = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
@@ -75,12 +75,20 @@ async function signup(req, res, next) {
       expiresIn: Date.now() + 300000,
     });
 
-    await sendVerificationCodeEmail(req, newUser.email, verificationCode);
+    try {
+      await sendVerificationCodeEmail(req, newUser.email, verificationCode);
 
-    return res.status(201).json({
-      message:
-        "Account created successfully! Please check your email to verify your account.",
-    });
+      return res.status(201).json({
+        message:
+          "Account created successfully! Please check your email to verify your account.",
+      });
+    } catch (emailErr) {
+      console.error("Email sending failed: ", emailErr);
+      return res.status(201).json({
+        message:
+          "Account created successfully, but we couldn’t send a verification email. Please try verifying later.",
+      });
+    }
   } catch (err) {
     console.error("Signup Error: ", err);
     return res
