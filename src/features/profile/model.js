@@ -78,6 +78,11 @@ const TruckOwner = sequelize.define(
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     tableName: "TruckOwner",
@@ -146,6 +151,11 @@ const DriverProfile = sequelize.define(
       defaultValue: "unemployed",
     },
     isSuspended: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    isVerified: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,

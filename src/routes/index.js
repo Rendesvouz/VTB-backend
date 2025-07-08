@@ -9,6 +9,7 @@ const bookings = require("../features/bookings/route");
 const list = require("../features/listings/routes");
 const truckowner = require("../features/truckowners/routes");
 const Location = require("../features/location/route");
+const Verififcation = require("../features/onboarding/route");
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ router.use("/listings", list);
 router.use("/books", authenticate(), bookings);
 router.use("/truckowner", authenticate(), truckowner);
 router.use("/location", authenticate(), Location);
+router.use("/verification", authenticate(), Verififcation);
 
 // Catch-All for Undefined Routes
 router.use("*", (req, res) => {
