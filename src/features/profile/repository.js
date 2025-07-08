@@ -3,6 +3,7 @@ const { User } = require("../authentication/model");
 const { Op, Sequelize } = require("sequelize");
 const { DriverLocation } = require("../location/model");
 const { AssignTruck } = require("../truckowners/model");
+const { verification } = require("../onboarding/model");
 
 // Create a new user
 /**
@@ -123,11 +124,100 @@ async function findUserprofileById(userId) {
   }
 }
 
-/**
- * Finds a user profile by userId field, including the associated User model.
- * @param {string} userId - The user's ID.
- * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
- */
+// /**
+//  * Finds a user profile by userId field, including the associated User model.
+//  * @param {string} userId - The user's ID.
+//  * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
+//  */
+// async function findtruckownerprofileById(truckownerId) {
+//   try {
+//     const truckProfile = await TruckOwner.findOne({
+//       where: { truckownerId },
+//       include: [
+//         {
+//           model: User,
+//           as: "User",
+//         },
+//       ],
+//     });
+//     return truckProfile || null;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
+// /**
+//  * Finds a user profile by userId field, including the associated User model.
+//  * @param {string} userId - The user's ID.
+//  * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
+//  */
+
+// async function finddriverrprofileById(driverId) {
+//   try {
+//     const driverProfile = await DriverProfile.findOne({
+//       where: { driverId },
+//       include: [
+//         {
+//           model: User,
+//           as: "User",
+//         },
+//         {
+//           model: DriverLocation,
+//           as: "location",
+//         },
+//         {
+//           model: AssignTruck,
+//           as: "assignedTrucks",
+//         },
+//       ],
+//     });
+//     return driverProfile || null;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
+// async function getAlldriverprofile() {
+//   try {
+//     return await DriverProfile.findAll({
+//       include: [
+//         {
+//           model: DriverLocation,
+//           as: "location",
+//         },
+//         {
+//           model: AssignTruck,
+//           as: "assignedTrucks",
+//         },
+//       ],
+//     });
+//   } catch (err) {
+//     console.error("Error fetching drivers profile:", err.message);
+//     throw err;
+//   }
+// }
+
+// async function getAllDriverProfilesByTruckOwner(truckownerId) {
+//   try {
+//     return await DriverProfile.findAll({
+//       where: { truckownerId },
+//       include: [
+//         {
+//           model: DriverLocation,
+//           as: "location",
+//         },
+//         {
+//           model: AssignTruck,
+//           as: "assignedTrucks",
+//         },
+//       ],
+//     });
+//   } catch (err) {
+//     console.error("Error fetching driver profiles:", err.message);
+//     throw err;
+//   }
+// }
+
 async function findtruckownerprofileById(truckownerId) {
   try {
     const truckProfile = await TruckOwner.findOne({
@@ -135,22 +225,22 @@ async function findtruckownerprofileById(truckownerId) {
       include: [
         {
           model: User,
-          as: "User",
+          as: "User", // MUST match your TruckOwner.belongsTo alias
+          include: [
+            {
+              model: verification,
+              as: "verification", // MUST match your User.hasOne alias
+            },
+          ],
         },
       ],
     });
     return truckProfile || null;
   } catch (error) {
+    console.error("Error loading truck owner profile:", error.message);
     throw error;
   }
 }
-
-/**
- * Finds a user profile by userId field, including the associated User model.
- * @param {string} userId - The user's ID.
- * @returns {Promise<UserProfile|null>} - The user profile with associated User if found, otherwise null.
- */
-
 async function finddriverrprofileById(driverId) {
   try {
     const driverProfile = await DriverProfile.findOne({
@@ -159,6 +249,12 @@ async function finddriverrprofileById(driverId) {
         {
           model: User,
           as: "User",
+          include: [
+            {
+              model: verification,
+              as: "verification",
+            },
+          ],
         },
         {
           model: DriverLocation,
@@ -181,6 +277,16 @@ async function getAlldriverprofile() {
     return await DriverProfile.findAll({
       include: [
         {
+          model: User,
+          as: "User",
+          include: [
+            {
+              model: verification,
+              as: "verification",
+            },
+          ],
+        },
+        {
           model: DriverLocation,
           as: "location",
         },
@@ -201,6 +307,16 @@ async function getAllDriverProfilesByTruckOwner(truckownerId) {
     return await DriverProfile.findAll({
       where: { truckownerId },
       include: [
+        {
+          model: User,
+          as: "User",
+          include: [
+            {
+              model: verification,
+              as: "verification",
+            },
+          ],
+        },
         {
           model: DriverLocation,
           as: "location",

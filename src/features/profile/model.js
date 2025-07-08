@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/dbconfig");
 const { v4: uuidv4 } = require("uuid");
 const { User } = require("../authentication/model");
+const { verification } = require("../onboarding/model");
 
 const UserProfile = sequelize.define(
   "UserProfile",
@@ -179,6 +180,15 @@ User.hasOne(DriverProfile, { foreignKey: "userId", onDelete: "CASCADE" });
 DriverProfile.belongsTo(User, {
   foreignKey: "driverId",
   onDelete: "CASCADE",
+});
+// ✅ User → verification (Onboarding)
+User.hasOne(verification, {
+  foreignKey: "userId",
+  as: "verification",
+});
+verification.belongsTo(User, {
+  foreignKey: "userId",
+  as: "user",
 });
 module.exports = {
   UserProfile,
