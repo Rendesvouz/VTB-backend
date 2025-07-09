@@ -55,9 +55,33 @@ const TruckOwner = sequelize.define(
       },
       onDelete: "CASCADE",
     },
+    fullName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    emergencyContact: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+    },
     companyName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    companyPhoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    companyEmail: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    companyRegistrationNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     address: {
       type: DataTypes.STRING,

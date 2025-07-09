@@ -15,7 +15,7 @@ const Notification = sequelize.define(
       allowNull: false,
     },
     type: {
-      type: DataTypes.ENUM("negoiation", "booking"),
+      type: DataTypes.ENUM("negoiation", "booked", "request", "decline"),
       allowNull: false,
     },
     message: {
