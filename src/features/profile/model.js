@@ -87,6 +87,10 @@ const TruckOwner = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    companyAddress: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     licenseNumber: {
       type: DataTypes.STRING,
       allowNull: true,
