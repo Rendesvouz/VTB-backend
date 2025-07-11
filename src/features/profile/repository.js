@@ -302,6 +302,28 @@ async function getAlldriverprofile() {
   }
 }
 
+async function getAlltruckownerprofile() {
+  try {
+    return await TruckOwner.findAll({
+      include: [
+        {
+          model: User,
+          as: "User",
+          include: [
+            {
+              model: verification,
+              as: "verification",
+            },
+          ],
+        },
+      ],
+    });
+  } catch (err) {
+    console.error("Error fetching drivers profile:", err.message);
+    throw err;
+  }
+}
+
 async function getAllDriverProfilesByTruckOwner(truckownerId) {
   try {
     return await DriverProfile.findAll({
@@ -363,4 +385,5 @@ module.exports = {
   getAllDriverProfilesByTruckOwner,
   markTruckOwnerForDriver,
   updateSuspensionStatus,
+  getAlltruckownerprofile,
 };

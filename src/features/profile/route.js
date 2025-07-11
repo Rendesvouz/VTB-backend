@@ -33,6 +33,7 @@ router.put("/update-driverprofile", controller.updatedriverprofileController);
 router.get("/driverprofiles/:driverId", controller.getDriverprofileById);
 router.get("/driverprofile", controller.getdriverprofileById);
 router.get("/all-driverprofile", controller.getalldriver);
+router.get("/all-truckownerprofile", controller.getalltruckowner);
 router.post(
   "/driver-profile",
   fileUpload,
