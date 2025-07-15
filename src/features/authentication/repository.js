@@ -121,22 +121,7 @@ async function findRefreshToken(token) {
 }
 async function getAllUsersWithProfiles() {
   try {
-    return await User.findAll({
-      include: [
-        {
-          model: UserProfile,
-          as: "userProfile",
-        },
-        {
-          model: TruckOwner,
-          as: "truckOwner",
-        },
-        {
-          model: DriverProfile,
-          as: "driverProfile",
-        },
-      ],
-    });
+    return await User.findAll({});
   } catch (error) {
     console.error("Error fetching users with profiles:", error);
     throw error;

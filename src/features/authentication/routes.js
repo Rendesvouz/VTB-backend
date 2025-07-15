@@ -25,7 +25,7 @@ router.patch("/approve/:id", approveUser);
 //router.post("/admin-signup", validateJwt(["SuperAdmin"]), AdminSignup);
 router.post("/driver-signup", DriverSignup);
 router.post("/truckowner-signup", TruckOwnerSignup);
-
+router.get("/all-user", getUsers);
 router.post("/login", login);
 router.post("/logout", logout);
 router.post("/refresh-token", refreshToken);
@@ -33,8 +33,6 @@ router.get("/verify/:code", verifyEmail);
 router.post("/resend-verification", resendVerificationCode);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
-
 router.get("/user/:id", getUsersById);
-router.get("get-all-user", getUsers);
 
 module.exports = router;
