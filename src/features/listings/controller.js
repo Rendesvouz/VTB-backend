@@ -228,7 +228,7 @@ const getalltruckownerlisting = async (req, res) => {
 async function updateInspectionController(req, res) {
   try {
     const { id } = req.params;
-    const { isinspected } = req.body;
+    const { Isinspected } = req.body;
 
     if (typeof isinspected !== "boolean") {
       return res.status(400).json({ message: "isinspected must be a boolean" });
