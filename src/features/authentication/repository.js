@@ -1,5 +1,6 @@
 const { User, Token } = require("./model");
 const { Op, Sequelize } = require("sequelize");
+const { DriverProfile, UserProfile, TruckOwner } = require("../profile/model");
 
 // Create a new user
 /**
@@ -118,6 +119,29 @@ async function findRefreshToken(token) {
     throw error;
   }
 }
+async function getAllUsersWithProfiles() {
+  try {
+    return await User.findAll({
+      include: [
+        {
+          model: UserProfile,
+          as: "userProfile",
+        },
+        {
+          model: TruckOwner,
+          as: "truckOwner",
+        },
+        {
+          model: DriverProfile,
+          as: "driverProfile",
+        },
+      ],
+    });
+  } catch (error) {
+    console.error("Error fetching users with profiles:", error);
+    throw error;
+  }
+}
 
 module.exports = {
   createUser,
@@ -127,4 +151,6 @@ module.exports = {
   storeRefreshToken,
   findRefreshToken,
   updateUser,
+  getAllUsersWithProfiles,
+  getAllUsersWithProfiles,
 };

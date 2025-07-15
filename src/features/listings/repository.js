@@ -127,6 +127,24 @@ async function getAlllistingByTruckOwner(truckOwnerId) {
   }
 }
 
+async function updateInspectionStatus(listingId, isinspected) {
+  try {
+    const [updatedRows] = await Listings.update(
+      { isinspected },
+      { where: { id: listingId } }
+    );
+
+    if (updatedRows === 0) {
+      throw new Error("Listing not found or no change applied");
+    }
+
+    return await Listings.findOne({ where: { id: listingId } });
+  } catch (error) {
+    console.error("Error updating inspection status:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   createlisting,
   getlistingById,
@@ -140,4 +158,5 @@ module.exports = {
   getcategoryById,
   updateListingDriverId,
   getAlllistingByTruckOwner,
+  updateInspectionStatus,
 };

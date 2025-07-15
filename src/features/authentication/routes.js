@@ -14,6 +14,7 @@ const {
   getUsersById,
   TruckOwnerSignup,
   approveUser,
+  getUsers,
 } = require("./controller");
 const router = express.Router();
 
@@ -34,5 +35,6 @@ router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 
 router.get("/user/:id", getUsersById);
+router.get("get-all-user", getUsers);
 
 module.exports = router;

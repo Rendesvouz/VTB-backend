@@ -224,6 +224,31 @@ const getalltruckownerlisting = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+async function updateInspectionController(req, res) {
+  try {
+    const { id } = req.params;
+    const { isinspected } = req.body;
+
+    if (typeof isinspected !== "boolean") {
+      return res.status(400).json({ message: "isinspected must be a boolean" });
+    }
+
+    const updatedListing = await repository.updateInspectionStatus(
+      id,
+      isinspected
+    );
+
+    return res.status(200).json({
+      message: "Inspection status updated successfully",
+      data: updatedListing,
+    });
+  } catch (error) {
+    console.error("Controller error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 module.exports = {
   createCarOffering,
   updateCarOffering,
@@ -236,4 +261,5 @@ module.exports = {
   getAllCategories,
   getCategoryById,
   getalltruckownerlisting,
+  updateInspectionController,
 };

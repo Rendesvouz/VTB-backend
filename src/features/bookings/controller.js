@@ -5,6 +5,7 @@ const {
   updateappointmentSchema,
   negotiationSchema,
 } = require("./schema");
+const { createNotification } = require("../notifications/repository");
 
 async function createBooking(req, res, next) {
   try {
@@ -13,6 +14,16 @@ async function createBooking(req, res, next) {
     const newUserData = { ...validatedData, userId };
 
     const newUser = await repository.createAppointment(newUserData);
+    if (action === "request") {
+      await createNotification(
+        providerId,
+        "appointment",
+        `You have a new appointment request from ${username}`
+      );
+      return respond(res, 200, "appointment request sent successfully.", {
+        appointment,
+      });
+    }
 
     return res.status(201).json({
       message: "booking sucessfull.",

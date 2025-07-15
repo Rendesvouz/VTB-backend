@@ -4,6 +4,7 @@ const {
   saveVerificationCode,
   findUserById,
   updateUser,
+  getAllUsersWithProfiles,
 } = require("./repository");
 
 const Userhash = require("../../utils/bcrypt");
@@ -538,6 +539,17 @@ async function approveUser(req, res, next) {
   }
 }
 
+async function getUsers(req, res) {
+  try {
+    const users = await getAllUsersWithProfiles();
+    return res
+      .status(200)
+      .json({ message: "Users fetched successfully", data: users });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
 module.exports = {
   signup,
   verifyEmail,
@@ -553,4 +565,5 @@ module.exports = {
   DriverSignup,
   TruckOwnerSignup,
   approveUser,
+  getUsers,
 };

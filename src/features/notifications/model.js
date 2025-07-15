@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 const sequelize = require("../../config/dbconfig");
+
 const Notification = sequelize.define(
   "Notification",
   {
