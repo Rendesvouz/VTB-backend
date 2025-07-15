@@ -38,7 +38,7 @@ router.put(
 );
 // router.get("/offerings/:id", getOfferingbyid);
 // router.get("/all-offerings", getAllOffering);
-router.put("Isinspected/:id", updateInspectionController);
+router.put("isInspected/:id", updateInspectionController);
 router.delete("/offering/:id", deleteListingById);
 router.post("/category", createCategory);
 router.get("/category", getAllCategories);

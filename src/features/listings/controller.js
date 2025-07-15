@@ -228,15 +228,15 @@ const getalltruckownerlisting = async (req, res) => {
 async function updateInspectionController(req, res) {
   try {
     const { id } = req.params;
-    const { Isinspected } = req.body;
+    const { isInspected } = req.body;
 
-    if (typeof isinspected !== "boolean") {
+    if (typeof isInspected !== "boolean") {
       return res.status(400).json({ message: "isinspected must be a boolean" });
     }
 
     const updatedListing = await repository.updateInspectionStatus(
       id,
-      isinspected
+      isInspected
     );
 
     return res.status(200).json({

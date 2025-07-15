@@ -127,10 +127,10 @@ async function getAlllistingByTruckOwner(truckOwnerId) {
   }
 }
 
-async function updateInspectionStatus(listingId, isinspected) {
+async function updateInspectionStatus(listingId, isInspected) {
   try {
     const [updatedRows] = await Listings.update(
-      { isinspected },
+      { isInspected },
       { where: { id: listingId } }
     );
 

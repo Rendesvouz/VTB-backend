@@ -63,7 +63,7 @@ const Listings = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    Isinspected: {
+    isInspected: {
       type: DataTypes.BOOLEAN,
       default: false,
     },
