@@ -38,7 +38,7 @@ router.put(
 );
 // router.get("/offerings/:id", getOfferingbyid);
 // router.get("/all-offerings", getAllOffering);
-router.put("isInspected/:id", updateInspectionController);
+router.put("/isInspected/:id", updateInspectionController);
 router.delete("/offering/:id", deleteListingById);
 router.post("/category", createCategory);
 router.get("/category", getAllCategories);
@@ -46,5 +46,4 @@ router.get("/category/:id", getCategoryById);
 router.put("/category/:id", updateCategory);
 router.delete("/category/:id", deleteCategory);
 router.get("/all-truckowner-listing", getalltruckownerlisting);
-
 module.exports = router;
