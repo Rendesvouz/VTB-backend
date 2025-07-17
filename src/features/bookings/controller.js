@@ -6,23 +6,23 @@ const {
   negotiationSchema,
 } = require("./schema");
 const { createNotification } = require("../notifications/repository");
+const { findUserByAnyId } = require("../profile/repository");
 
 async function createBooking(req, res, next) {
   try {
     const userId = req.userId;
     const validatedData = await appointmentSchema.validateAsync(req.body);
     const newUserData = { ...validatedData, userId };
-
+    const username = await findUserByAnyId({ userId });
+    const action = validatedData.status;
+    const providerId = validatedData.driverId;
     const newUser = await repository.createAppointment(newUserData);
     if (action === "request") {
       await createNotification(
         providerId,
-        "appointment",
-        `You have a new appointment request from ${username}`
+        "request",
+        `you have a booking request from ${username}`
       );
-      return respond(res, 200, "appointment request sent successfully.", {
-        appointment,
-      });
     }
 
     return res.status(201).json({
@@ -42,12 +42,23 @@ async function createBooking(req, res, next) {
 async function updateAppointmentStatusController(req, res) {
   try {
     const { appointmentId } = req.params;
+    const DriverId = userId;
     const { status } = req.body;
+    const reciever = await repository.getAppointmentById(appointmentId);
+    const recieverId = reciever.userId;
+    const username = await findUserByAnyId({ DriverId });
 
     const updatedAppointment = await repository.updateAppointmentStatus(
       appointmentId,
       status
     );
+    if (status === "accept") {
+      await createNotification(
+        recieverId,
+        "accept",
+        `your booking request have been accepted by ${username}`
+      );
+    }
     return res.status(200).json({
       message: " bookings updated successfully.",
       data: updatedAppointment,
@@ -101,17 +112,66 @@ const getallbooking = async (req, res) => {
 async function negotiatePrice(req, res) {
   try {
     const { appointmentId } = req.params;
+    const user = req.userId;
+    const driver = req.userId;
+    const reciever = await repository.getAppointmentById(appointmentId);
+    const driverId = reciever.driverId;
+    const userId = reciever.userId;
+    console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", driverId);
+    console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", userId);
+    const username = await findUserByAnyId({ userId });
+    const drivername = await findUserByAnyId({ driverId });
 
     // Validate using Joi schema
     const validatedNegotiation = await negotiationSchema.validateAsync(
       req.body
     );
 
+    const status = validatedNegotiation.status;
+    const proposedBy = validatedNegotiation.proposedBy;
+
     const updatedAppointment = await repository.negotiateAppointment(
       appointmentId,
       validatedNegotiation
     );
-
+    if (status === "proposed") {
+      await createNotification(
+        driverId,
+        "negotiation",
+        `You have a negotiation proposal from ${username}`
+      );
+    } else if (status === "countered") {
+      await createNotification(
+        userId,
+        "negotiation",
+        `Your negotiation has been countered by ${drivername}`
+      );
+    } else if ((status === "accepted") & (proposedBy === "user")) {
+      await createNotification(
+        driverId,
+        "negotiation",
+        `Your negotiation has been accepted by ${username}`
+      );
+    } else if ((status === "accepted") & (proposedBy === "driver")) {
+      await createNotification(
+        userId,
+        "negotiation",
+        `Your negotiation has been accepted by ${drivername}`
+      );
+    } else if ((status === "rejected") & (proposedBy === "user")) {
+      await createNotification(
+        driverId,
+        "negotiation",
+        `Your negotiation has been rejected by ${username}`
+      );
+    } else if ((status === "rejected") & (proposedBy === "driver")) {
+      await createNotification(
+        userId,
+        "negotiation",
+        `Your negotiation has been rejected by ${drivername}`
+      );
+    }
+    //"accepted", "rejected", "countered"
     return res.status(200).json({
       data: updatedAppointment,
       message: "Negotiation updated successfully.",

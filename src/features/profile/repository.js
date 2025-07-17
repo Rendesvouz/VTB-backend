@@ -370,8 +370,33 @@ async function updateSuspensionStatus(driverId, isSuspended) {
   return await DriverProfile.findOne({ where: { driverId } });
 }
 
+async function findUserByAnyId({ userId, driverId, truckownerId }) {
+  try {
+    if (userId) {
+      const user = await UserProfile.findOne({ where: { userId } });
+      return user ? user.fullname : null;
+    }
+
+    if (driverId) {
+      const driver = await DriverProfile.findOne({ where: { driverId } });
+      return driver ? driver.fullName : null;
+    }
+
+    if (truckownerId) {
+      const owner = await TruckOwner.findOne({ where: { truckownerId } });
+      return owner ? owner.fullName : null;
+    }
+
+    throw new Error("At least one ID must be provided");
+  } catch (error) {
+    console.error("Error fetching user by ID:", error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   updateUserprofile,
+  findUserByAnyId,
   finddriverrprofileById,
   createUserprofile,
   findUserprofileById,

@@ -67,6 +67,10 @@ const TruckOwner = sequelize.define(
       type: DataTypes.JSONB,
       allowNull: true,
     },
+    accountDetails: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+    },
     companyName: {
       type: DataTypes.STRING,
       allowNull: false,

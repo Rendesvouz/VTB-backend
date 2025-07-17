@@ -1,5 +1,4 @@
 const express = require("express");
-const { validateJwt } = require("../../middlewares/auth");
 const {
   getNotifications,
   markAsRead,
@@ -7,11 +6,11 @@ const {
   getNotificationByIdController,
 } = require("./controller");
 
-const notificationRouter = express.Router();
+const router = express.Router();
 
-notificationRouter.get("/", getNotifications);
-notificationRouter.get("/:notificationId", getNotificationByIdController);
-notificationRouter.patch("/:id/read", markAsRead);
-notificationRouter.delete("/:id", deleteNotification);
+router.get("/", getNotifications);
+router.get("/:notificationId", getNotificationByIdController);
+router.patch("/:id/read", markAsRead);
+router.delete("/:id", deleteNotification);
 
-module.exports = notificationRouter;
+module.exports = router;

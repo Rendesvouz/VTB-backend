@@ -32,7 +32,8 @@ const appointmentSchema = Joi.object({
       "request",
       "completed",
       "accept",
-      "decline"
+      "decline",
+      "negotiation"
     )
     .optional(),
   price: Joi.number().precision(2).optional(),
@@ -60,7 +61,8 @@ const updateappointmentSchema = Joi.object({
       "request",
       "completed",
       "accept",
-      "decline"
+      "decline",
+      "negotiation"
     )
     .optional(),
   price: Joi.number().precision(2).optional(),
