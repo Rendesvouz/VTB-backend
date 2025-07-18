@@ -183,6 +183,10 @@ const DriverProfile = sequelize.define(
       allowNull: false,
       defaultValue: "unemployed",
     },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     isSuspended: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
